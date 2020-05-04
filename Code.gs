@@ -24,18 +24,16 @@ function postMessageToDiscord(message) {
     var range = activeSheet.getRange("A1:B99");
     var user = range.getCell(thisRow, 2);
     var realname = range.getCell(thisRow, 1);
-    
     if (user.getValue() == realname.getValue()) { var username = user.getValue() }
     else { var username = user.getValue() + "(" + realname.getValue() + ")"; }
+    
     var price = message.value;
     var sentence = username + " has a turnip price of "
     var result = sentence + price
     Logger.log(result)
     
     // Enter your discord webhook here
-    var discordUrl = '';
-    var payload = JSON.stringify({content: result});
-    
+    var discordUrl = '';    
     var params = {
       headers: {
         'Content-Type': 'application/json'
