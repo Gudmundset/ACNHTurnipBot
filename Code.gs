@@ -5,7 +5,6 @@ function postMessageToDiscord(message) {
   if (activeSheet.getName() !== "Friend Codes") return;
   
   // Exit if we're out of range
-  // Edit this to only grab the column you want. We keep it G.
   var editRange = { // G3:G999
     top : 3,
     bottom : 999,
@@ -20,27 +19,27 @@ function postMessageToDiscord(message) {
   if (thisCol < editRange.left || thisCol > editRange.right) return;
   
   if (message.value) {
-    // Edit this or comment this with the name columns.
+    //username/name columns
     var range = activeSheet.getRange("A1:B99");
     var user = range.getCell(thisRow, 2);
     var realname = range.getCell(thisRow, 1);
-    if (user.getValue() == realname.getValue()) { var username = user.getValue() }
-    else { var username = user.getValue() + "(" + realname.getValue() + ")"; }
-    
+    if (user.getValue() == realname.getValue()) { var username = user.getValue(); }
+    else { var username = user.getValue() + "/ " + realname.getValue(); }
     var price = message.value;
-    var sentence = username + " has a turnip price of "
-    var result = sentence + price
-    Logger.log(result)
+    var sentence = username + " has a turnip price of ";
+    var result = sentence + price;
+    Logger.log(result);
     
-    // Enter your discord webhook here
-    var discordUrl = '';    
+    //webhook here
+    var discordUrl = '';
+    var payload = JSON.stringify({content: result});
     var params = {
       headers: {
         'Content-Type': 'application/json'
       },
-      content: result,
       method: "POST",
-      muteHttpExceptions: true
+      muteHttpExceptions: true,
+      payload: payload
     };
     
     var response = UrlFetchApp.fetch(discordUrl, params);
@@ -48,4 +47,3 @@ function postMessageToDiscord(message) {
   }
 
 }
-
